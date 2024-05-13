@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const { UserController } = require('../controllers');
 const PostController = require('../controllers/post-controller');
+const CommentController = require('../controllers/comment-controller');
 const { authenticateToken } = require('../middleware/auth');
 
 const uploadDestination = 'uploads';
@@ -29,5 +30,13 @@ router.post('/posts', authenticateToken, PostController.createPost);
 router.get('/posts', authenticateToken, PostController.getAllPosts);
 router.get('/posts/:id', authenticateToken, PostController.getPostById);
 router.delete('/posts/:id', authenticateToken, PostController.deletePost);
+
+// Роуты комментариев
+router.post('/comments', authenticateToken, CommentController.createComment);
+router.delete(
+  '/comments/:id',
+  authenticateToken,
+  CommentController.deleteComment,
+);
 
 module.exports = router;
