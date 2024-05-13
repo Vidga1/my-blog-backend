@@ -154,7 +154,32 @@ const UserController = {
   },
 
   current: async (req, res) => {
-    res.send('current');
+    try {
+      const user = await prisma.user.findUnique({
+        where: { id: req.user.userId },
+        include: {
+          followers: {
+            include: {
+              follower: true,
+            },
+          },
+          following: {
+            include: {
+              following: true,
+            },
+          },
+        },
+      });
+
+      if (!user) {
+        return res.status(400).json({ error: 'Пользователь не найден' });
+      }
+
+      return res.status(200).json(user);
+    } catch (error) {
+      console.error('Get Current error', error);
+      res.status(500).json({ error: 'Что-то пошло не так' });
+    }
   },
 };
 
