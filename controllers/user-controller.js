@@ -36,8 +36,8 @@ const UserController = {
           email,
           password: hashedPassword,
           name,
-          avatarUrl: `/uploads/${avatarName}`
-        }
+          avatarUrl: `/uploads/${avatarName}`,
+        },
       });
 
       res.json(user);
@@ -87,7 +87,7 @@ const UserController = {
   },
   current: async (req, res) => {
     res.send('current');
-  }
+  },
 };
 
 module.exports = UserController;

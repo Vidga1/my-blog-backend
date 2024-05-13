@@ -1,9 +1,0 @@
-node_modules/
-dist/
-build/
-public/
-*.json
-*.log
-*.md
-*.yaml
-*.yml
