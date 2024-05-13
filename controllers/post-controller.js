@@ -24,8 +24,31 @@ const PostController = {
       res.status(500).json({ error: 'Error when creating post' });
     }
   },
+
   getAllPosts: async (req, res) => {
-    res.send('getAllPosts');
+    const userId = req.user.userId;
+
+    try {
+      const posts = await prisma.post.findMany({
+        include: {
+          likes: true,
+          author: true,
+          comments: true,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+
+      const postsWithLikeInfo = posts.map((post) => ({
+        ...post,
+        likedByUser: post.likes.some((like) => like.userId === userId),
+      }));
+
+      res.json(postsWithLikeInfo);
+    } catch (err) {
+      res.status(500).json({ error: 'Ошибка при получении постов' });
+    }
   },
   getPostById: async (req, res) => {
     res.send('getPostById');
