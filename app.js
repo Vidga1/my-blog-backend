@@ -1,20 +1,22 @@
 const createError = require('http-errors');
 const express = require('express');
-const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const cors = require('cors');
+const path = require('path');
 const fs = require('fs');
 require('dotenv').config();
 
 const app = express();
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.set('view engine', 'jade');
-//Раздавать статические файлы из папки 'uploads'
-app.use('/aploads', express.static('uploads'));
+app.set('view engine', 'pug');
+// Раздавать статические файлы из папки 'uploads'
+app.use('/uploads', express.static('uploads'));
 
 app.use('/api', require('./routes'));
 
