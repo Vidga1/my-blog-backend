@@ -6,6 +6,7 @@ services:
       - '3000:3000'
     depends_on:
       - db
+      - client-app
     environment:
       DATABASE_URL: 'mongodb://monty:pass@db:27017/mydatabase?authSource=admin&directConnection=true'
   db:
@@ -15,3 +16,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: monty
       MONGO_INITDB_ROOT_PASSWORD: pass
+  client-app:
+    build: ../my-blog-frontend
+    ports:
+      - '80:80'
